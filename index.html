@@ -2,128 +2,136 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <title>LUNATIC LOG | Official Page</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700&display=swap');
 
         :root {
             --gold: #c5a059;
             --crimson: #8b0000;
-            --abyss: #1a0a25;
+            --abyss: #6a0dad;
             --bg: #0a0a0a;
+            --card-bg: #151515;
         }
 
-        body { background: var(--bg); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 20px; }
+        body { background: var(--bg); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
         .myeongjo { font-family: 'Nanum Myeongjo', serif; }
+        .hidden { display: none !important; }
 
-        /* --- 이미지 슬라이더 영역 --- */
-        .gallery-container {
-            max-width: 800px;
-            margin: 0 auto 30px;
-            position: relative;
-            text-align: center;
-        }
+        section { min-height: 100vh; padding: 80px 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
 
-        .main-img-box {
-            width: 100%;
-            height: 500px;
-            background: #111;
-            border: 1px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* 화살표 버튼 */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: var(--gold);
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 10px 15px;
-            z-index: 10;
-        }
-        .prev { left: 10px; }
-        .next { right: 10px; }
-
-        /* 섬네일 영역 */
-        .thumb-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .thumb {
-            width: 60px;
-            height: 80px;
-            object-fit: cover;
-            border: 2px solid transparent;
-            cursor: pointer;
-            opacity: 0.5;
-        }
-
-        .thumb.active { border-color: var(--gold); opacity: 1; }
-
-        /* --- 캐릭터 상세 정보 카드 --- */
-        .info-card {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #151515;
-            border: 1px solid #333;
-            padding: 40px;
-            position: relative;
-        }
-
-        .info-header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
-        .info-header h2 { font-size: 2.2rem; margin: 0; color: var(--gold); }
-        .info-header span { font-size: 1rem; color: #888; }
-
-        .grid-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .info-item b { color: var(--gold); margin-right: 10px; font-size: 0.9rem; }
-
-        .quote-box {
-            font-size: 1.2rem;
-            color: #ccc;
-            font-style: italic;
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 8px;
-        }
-
-        .tag-list { color: var(--gold); font-size: 0.9rem; margin-bottom: 15px; }
-
-        .desc-section { line-height: 1.8; color: #bbb; margin-bottom: 20px; }
+        /* --- 세력 그리드 스타일 --- */
+        .faction-group { width: 100%; max-width: 1000px; margin-bottom: 60px; }
+        .faction-title { font-size: 2rem; color: var(--gold); border-left: 5px solid var(--gold); padding-left: 15px; margin-bottom: 25px; }
         
-        .hl-box { 
-            display: flex; 
-            gap: 20px; 
-            background: #111; 
-            padding: 15px; 
-            font-size: 0.85rem;
-            border: 1px solid #222;
+        .location-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; width: 100%; }
+        .location-tag { 
+            background: #1a1a1a; padding: 20px; text-align: center; border: 1px solid #333; 
+            transition: 0.3s; cursor: pointer; border-radius: 4px;
         }
-        .hl-box b { color: var(--gold); }
+        .location-tag:hover { border-color: var(--gold); transform: translateY(-5px); background: #222; }
+
+        /* --- 모달 레이아웃 --- */
+        #charModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+        .modal-content { 
+            background: var(--card-bg); width: 90%; max-width: 900px; max-height: 90vh; 
+            border: 1px solid var(--gold); position: relative; padding: 30px; overflow-y: auto;
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px;
+        }
+
+        /* 이미지 슬라이더 */
+        .slider-box { position: relative; width: 100%; height: 450px; background: #000; border: 1px solid #333; }
+        .slider-box img { width: 100%; height: 100%; object-fit: cover; }
+        .nav-btn { 
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); 
+            color: var(--gold); border: none; font-size: 1.5rem; cursor: pointer; padding: 15px 10px; z-index: 10;
+        }
+        .nav-btn:hover { background: var(--gold); color: #000; }
+        
+        #thumbArea { display: flex; gap: 8px; margin-top: 15px; justify-content: center; overflow-x: auto; }
+        .thumb-img { width: 50px; height: 65px; object-fit: cover; cursor: pointer; opacity: 0.5; border: 2px solid transparent; }
+        .thumb-img.active { opacity: 1; border-color: var(--gold); }
+
+        .awaken-btn { 
+            width: 100%; margin-top: 15px; padding: 12px; background: var(--crimson); color: #fff; 
+            border: none; cursor: pointer; font-weight: bold; letter-spacing: 2px;
+        }
+
+        /* 정보 텍스트 */
+        .info-header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
+        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem; color: #ccc; }
+        .grid-info b { color: var(--gold); margin-right: 5px; }
+        .quote-box { background: rgba(197, 160, 89, 0.1); padding: 20px; border-radius: 8px; margin: 20px 0; font-style: italic; text-align: center; color: #fff; }
+        .tag-item { color: var(--gold); font-size: 0.85rem; margin-right: 8px; }
+
+        @media (max-width: 768px) {
+            .modal-content { grid-template-columns: 1fr; }
+            .slider-box { height: 350px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- 세력 섹션 -->
+    <section id="page-factions">
+        <h2 class="myeongjo" style="font-size: 3rem; color: var(--gold); margin-bottom: 50px; text-align: center;">CHARACTERS</h2>
+        
+        <div class="faction-group">
+            <div class="faction-title myeongjo">제국 (The Empire)</div>
+            <div id="grid-empire" class="location-grid"></div>
+        </div>
+
+        <div class="faction-group">
+            <div class="faction-title myeongjo" style="color: var(--crimson); border-color: var(--crimson);">마계 (The Devildom)</div>
+            <div id="grid-devildom" class="location-grid"></div>
+        </div>
+
+        <div class="faction-group">
+            <div class="faction-title myeongjo" style="color: var(--abyss); border-color: var(--abyss);">어비스 (The Abyss)</div>
+            <div id="grid-abyss" class="location-grid"></div>
+        </div>
+    </section>
+
+    <!-- 상세 모달 -->
+    <div id="charModal" class="hidden">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position:absolute; top:15px; right:20px; background:none; border:none; color:var(--gold); font-size:2.5rem; cursor:pointer;">&times;</button>
+            
+            <!-- 왼쪽: 비주얼 -->
+            <div>
+                <div class="slider-box">
+                    <button onclick="prevImg()" class="nav-btn" style="left:0;">❮</button>
+                    <img id="mainImg" src="">
+                    <button onclick="nextImg()" class="nav-btn" style="right:0;">❯</button>
+                </div>
+                <div id="thumbArea"></div>
+                <button id="awakenBtn" class="awaken-btn" onclick="toggleAwakening()">본모습 개방</button>
+            </div>
+
+            <!-- 오른쪽: 정보 -->
+            <div id="infoArea">
+                <div class="info-header">
+                    <h2 id="mName" class="myeongjo" style="font-size:2.2rem; color:var(--gold); margin:0;"></h2>
+                    <span id="mSubTitle" style="color:#888; font-size:0.9rem;"></span>
+                </div>
+                <div class="grid-info">
+                    <div><b>나이</b> <span id="mAge"></span></div>
+                    <div><b>MBTI</b> <span id="mMBTI"></span></div>
+                    <div><b>신장</b> <span id="mHeight"></span></div>
+                    <div><b>체중</b> <span id="mWeight"></span></div>
+                </div>
+                <div id="mTags" style="margin-top:15px;"></div>
+                <div class="quote-box">
+                    <p id="mQuote" style="margin:0;"></p>
+                </div>
+                <p id="mDesc" style="line-height:1.8; color:#bbb; font-size:0.95rem;"></p>
+                <div style="margin-top:20px; padding-top:15px; border-top:1px solid #333; font-size:0.85rem;">
+                    <p><b>Like:</b> <span id="mLikes"></span></p>
+                    <p><b>Dislike:</b> <span id="mDislikes"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
   <script>
     const baseUrl = "https://pub-1ff16a5c9ef048e3ab851e262c07ba57.r2.dev/";
     const codes = ["기본⚖️", "옅은웃음", "수줍음", "눈", "고백", "전투"];
@@ -150,72 +158,79 @@
        { id: "베놈_", name: "베놈", age: "25", mbti: "ESTP", faction: "기타", sub: "???", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신", "#충동적"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "돈과 자극만 준다면 무엇이든 파괴하는 거친 용병.광기 어린 태도로 상대를 압도한다.", likes: "자극, 쾌락", dislikes: "동정, 훈계" }
     ];
 
-    function renderGrids() {
-        characters.forEach(char => {
-            const card = document.createElement('div');
-            card.className = 'location-tag';
-            card.style.cursor = 'pointer';
-            card.innerHTML = `<strong>${char.name}</strong><br><small>${char.sub}</small>`;
-            card.onclick = () => openModal(char);
+function renderGrids() {
+            characters.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'location-tag';
+                card.innerHTML = `<strong class="myeongjo">${char.name}</strong><br><small>${char.sub}</small>`;
+                card.onclick = () => openModal(char);
 
-            if (char.faction === "제국") document.getElementById('grid-empire').appendChild(card);
-            else if (char.faction === "마계") document.getElementById('grid-devildom').appendChild(card);
-            else if (char.faction === "기타") document.getElementById('grid-abyss').appendChild(card);
-        });
-    }
+                if (char.faction === "제국") document.getElementById('grid-empire').appendChild(card);
+                else if (char.faction === "마계") document.getElementById('grid-devildom').appendChild(card);
+                else if (char.faction === "기타") document.getElementById('grid-abyss').appendChild(card);
+            });
+        }
 
-    function openModal(char) {
-        current = char;
-        isAwake = false;
-        imgIdx = 0;
-        document.getElementById('charModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-        updateUI();
-    }
+        function openModal(char) {
+            current = char;
+            isAwake = false;
+            imgIdx = 0;
+            document.getElementById('charModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            updateUI();
+        }
 
-    function updateUI() {
-        document.getElementById('mName').innerText = current.name;
-        document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
-        document.getElementById('mAge').innerText = current.age;
-        document.getElementById('mMBTI').innerText = current.mbti;
-        document.getElementById('mHeight').innerText = current.height;
-        document.getElementById('mWeight').innerText = current.weight;
-        document.getElementById('mQuote').innerText = `"${current.quote}"`;
-        document.getElementById('mDesc').innerText = current.desc;
-        document.getElementById('mLikes').innerText = current.likes;
-        document.getElementById('mDislikes').innerText = current.dislikes;
+        function updateUI() {
+            document.getElementById('mName').innerText = current.name;
+            document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
+            document.getElementById('mAge').innerText = current.age;
+            document.getElementById('mMBTI').innerText = current.mbti;
+            document.getElementById('mHeight').innerText = current.height;
+            document.getElementById('mWeight').innerText = current.weight;
+            document.getElementById('mQuote').innerText = current.quote;
+            document.getElementById('mDesc').innerText = current.desc;
+            document.getElementById('mLikes').innerText = current.likes;
+            document.getElementById('mDislikes').innerText = current.dislikes;
+            document.getElementById('awakenBtn').innerText = isAwake ? "모습 되돌리기" : "본모습 개방";
 
-        const tagArea = document.getElementById('mTags');
-        tagArea.innerHTML = current.tags.join(' ');
+            const tagArea = document.getElementById('mTags');
+            tagArea.innerHTML = '';
+            current.tags.forEach(t => {
+                const s = document.createElement('span');
+                s.className = 'tag-item';
+                s.innerText = t;
+                tagArea.appendChild(s);
+            });
 
-        updateMainPhoto();
-        renderThumbs();
-    }
+            updateMainPhoto();
+        }
 
-    function renderThumbs() {
-        const thumbArea = document.getElementById('thumbArea');
-        thumbArea.innerHTML = '';
-        const mode = isAwake ? 'T' : 'N';
-        codes.forEach((code, i) => {
-            const img = document.createElement('img');
-            img.src = `${baseUrl}${current.id}_${mode}${code}.webp`;
-            img.style.width = "50px";
-            img.style.height = "60px";
-            img.style.objectFit = "cover";
-            img.style.cursor = "pointer";
-            img.style.border = i === imgIdx ? "2px solid var(--gold)" : "2px solid transparent";
-            img.onclick = () => { imgIdx = i; updateMainPhoto(); };
-            thumbArea.appendChild(img);
-        });
-    }
+        function updateMainPhoto() {
+            const mode = isAwake ? 'T' : 'N';
+            // 이미지 ID 뒤에 언더바(_)가 붙어있는 데이터 구조에 맞춰 수정
+            document.getElementById('mainImg').src = `${baseUrl}${current.id}_${mode}${codes[imgIdx]}.webp`;
+            renderThumbs();
+        }
 
-    function updateMainPhoto() {
-        const mode = isAwake ? 'T' : 'N';
-        document.getElementById('mainImg').src = `${baseUrl}${current.id}_${mode}${codes[imgIdx]}.webp`;
-        renderThumbs();
-    }
+        function renderThumbs() {
+            const thumbArea = document.getElementById('thumbArea');
+            thumbArea.innerHTML = '';
+            const mode = isAwake ? 'T' : 'N';
+            codes.forEach((code, i) => {
+                const img = document.createElement('img');
+                img.src = `${baseUrl}${current.id}_${mode}${code}.webp`;
+                img.className = `thumb-img ${i === imgIdx ? 'active' : ''}`;
+                img.onclick = () => { imgIdx = i; updateMainPhoto(); };
+                thumbArea.appendChild(img);
+            });
+        }
 
-    function closeModal() { document.getElementById('charModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+        function nextImg() { imgIdx = (imgIdx + 1) % codes.length; updateMainPhoto(); }
+        function prevImg() { imgIdx = (imgIdx - 1 + codes.length) % codes.length; updateMainPhoto(); }
+        function toggleAwakening() { isAwake = !isAwake; imgIdx = 0; updateUI(); }
+        function closeModal() { document.getElementById('charModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
-    window.onload = renderGrids;
-</script>
+        window.onload = renderGrids;
+    </script>
+</body>
+</html>
