@@ -8,113 +8,93 @@
 
         :root {
             --royal-gold: #b38b4d;
-            --deep-brown: #3e2723; /* 깊은 갈색 */
-            --warm-brown: #d7ccc8; /* 연한 갈색 */
-            --antique-bg: #efebe9; /* 전체 배경 갈색 톤 */
-            --deep-red: #7a1a1a;
-            --paper: #fffcf5; 
-            --text-main: #3e2723;
+            --deep-brown: #3e2723;
+            --warm-brown: #d7ccc8;
+            --antique-bg: #e0d7cc; /* 눈이 편안한 갈색 톤 */
+            --paper: #fdfaf5; 
+            --text-main: #2c1b18;
             --text-sub: #5d4037;
-            --border: #bcaaa4;
+            --border: #c4b5a2;
         }
 
         body { 
             background-color: var(--antique-bg); 
-            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* 은은한 패턴 */
+            /* 줄무늬 대신 눈이 편한 부드러운 종이 질감 사용 */
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             color: var(--text-main); 
             font-family: 'Noto Sans KR', sans-serif; 
             margin: 0; padding: 0; 
-            overflow-x: hidden;
         }
         .myeongjo { font-family: 'Nanum Myeongjo', serif; }
         .cinzel { font-family: 'Cinzel', serif; }
         .hidden { display: none !important; }
 
-        /* --- 상단 내비게이션 (갈색 테마) --- */
+        /* --- 상단 내비게이션 --- */
         .main-nav { 
             position: sticky; top: 0; 
-            background: rgba(62, 39, 35, 0.95); 
-            backdrop-filter: blur(10px); 
+            background: rgba(62, 39, 35, 0.98); 
             display: flex; justify-content: center; gap: 60px; 
             padding: 18px; z-index: 100; 
             border-bottom: 3px solid var(--royal-gold);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
         .main-nav button { 
-            background: none; border: none; color: var(--warm-brown); 
+            background: none; border: none; color: #a1887f; 
             font-size: 1.1rem; cursor: pointer; transition: 0.3s; 
             font-weight: bold; font-family: 'Nanum Myeongjo', serif;
-            letter-spacing: 2px;
         }
-        .main-nav button.active { color: var(--royal-gold); }
+        .main-nav button.active { color: var(--royal-gold); text-shadow: 0 0 10px rgba(179,139,77,0.5); }
 
-        /* --- 섹션 공통 --- */
+        /* --- 섹션 --- */
         section { 
-            max-width: 1000px; margin: 50px auto; padding: 50px;
+            max-width: 900px; margin: 40px auto; padding: 50px;
             background: var(--paper); border: 1px solid var(--border);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            animation: fadeIn 0.8s ease-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .prologue-title { text-align: center; color: var(--deep-brown); font-size: 3.5rem; margin-bottom: 5px; }
-        .prologue-sub { text-align: center; color: var(--royal-gold); letter-spacing: 8px; margin-bottom: 60px; font-size: 0.9rem; }
-        .prologue-content { line-height: 2.8; text-align: center; font-size: 1.1rem; color: var(--text-sub); }
-        
-        .link-btn { 
-            display: block; width: fit-content; margin: 60px auto; padding: 18px 60px; 
-            background: var(--deep-brown); color: var(--royal-gold); 
-            text-decoration: none; border: 1px solid var(--royal-gold);
-            font-weight: bold; transition: 0.4s;
-        }
-        .link-btn:hover { background: var(--royal-gold); color: white; }
+        .prologue-title { text-align: center; color: var(--deep-brown); font-size: 3rem; margin-bottom: 5px; }
+        .prologue-sub { text-align: center; color: var(--royal-gold); letter-spacing: 8px; margin-bottom: 40px; font-size: 0.9rem; }
+        .prologue-content { line-height: 2.5; text-align: center; font-size: 1.1rem; }
 
-        /* --- 카드 및 그리드 --- */
-        .world-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .world-card { padding: 35px; border: 1px solid var(--border); background: white; }
-        .world-card h3 { color: var(--deep-red); margin-top: 0; border-bottom: 1px solid var(--royal-gold); padding-bottom: 10px; }
-
-        .faction-title { font-size: 2.2rem; color: var(--deep-brown); text-align: center; margin: 80px 0 40px; }
-        .location-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        /* --- 캐릭터 그리드 --- */
+        .faction-title { font-size: 2rem; color: var(--deep-brown); text-align: center; margin: 60px 0 30px; }
+        .location-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .location-tag { 
-            background: white; padding: 25px; text-align: center; 
+            background: white; padding: 20px; text-align: center; 
             border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
         }
-        .location-tag:hover { border-color: var(--royal-gold); background: var(--paper); transform: translateY(-5px); }
+        .location-tag:hover { border-color: var(--royal-gold); background: #fdf2e9; }
 
-        /* --- 가로형 이미지 최적화 모달 --- */
-        #charModal { position: fixed; inset: 0; background: rgba(30, 20, 20, 0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        /* --- 모달 (가로 이미지 최적화) --- */
+        #charModal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { 
-            background: var(--paper); width: 100%; max-width: 800px; max-height: 95vh; 
+            background: var(--paper); width: 100%; max-width: 800px; max-height: 90vh; 
             border: 2px solid var(--royal-gold); overflow-y: auto; display: flex; flex-direction: column;
         }
         
-        /* 이미지 상단 배치 */
-        .modal-top { position: relative; width: 100%; background: #000; line-height: 0; }
-        #mainImg { width: 100%; height: auto; max-height: 500px; object-fit: contain; } /* 가로형 이미지 최적화 */
+        .modal-top { position: relative; width: 100%; background: #111; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #mainImg { width: 100%; height: auto; display: block; }
         
-        .modal-bottom { padding: 40px; position: relative; }
-        .close-x { position: absolute; top: 20px; right: 30px; font-size: 2.5rem; color: var(--royal-gold); cursor: pointer; background: none; border: none; }
+        .modal-bottom { padding: 30px; position: relative; background: var(--paper); }
+        .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--royal-gold); cursor: pointer; background: none; border: none; }
 
         .info-grid { 
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; 
-            margin-top: 30px; border-top: 2px double var(--border); padding-top: 25px; text-align: center;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+            margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center;
         }
-        .info-grid small { color: var(--royal-gold); font-weight: bold; }
-        .quote-box { font-size: 1.3rem; color: var(--deep-red); margin: 25px 0; text-align: center; font-weight: bold; }
-        .tag-item { background: var(--warm-brown); color: var(--deep-brown); padding: 4px 10px; font-size: 0.85rem; margin-right: 5px; border-radius: 3px; }
+        .info-grid small { color: var(--royal-gold); font-size: 0.8rem; }
+        .quote-box { font-size: 1.2rem; color: #7a1a1a; margin: 20px 0; text-align: center; font-weight: bold; line-height: 1.4; }
+        .tag-item { color: var(--royal-gold); font-weight: bold; margin-right: 10px; font-size: 0.9rem; }
 
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; padding: 20px 10px; cursor: pointer; font-size: 1.5rem; }
-        .nav-btn:hover { background: rgba(0,0,0,0.6); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; padding: 15px 10px; cursor: pointer; font-size: 1.2rem; z-index: 5; }
+        .nav-btn:hover { background: rgba(0,0,0,0.7); }
     </style>
 </head>
 <body>
 
     <nav class="main-nav myeongjo">
-        <button id="nav-prologue" class="active" onclick="showTab('prologue')">PROLOGUE</button>
-        <button id="nav-world" onclick="showTab('world')">WORLDVIEW</button>
-        <button id="nav-chars" onclick="showTab('chars')">CHARACTERS</button>
+        <button id="nav-prologue" class="active" onclick="showTab('prologue')">프롤로그</button>
+        <button id="nav-world" onclick="showTab('world')">세계관</button>
+        <button id="nav-chars" onclick="showTab('chars')">인물 정보</button>
     </nav>
 
     <section id="sec-prologue">
@@ -123,94 +103,75 @@
         <div class="prologue-content myeongjo">
             <p>모두가 구원받는 해피엔딩을 원했다.</p>
             <p>하지만 소설의 끝은 붉은 달이 차오르는 절망뿐.</p>
-            <p>마지막 페이지를 넘긴 당신에게 들려온 서늘한 목소리—</p>
-            <p style="color: var(--deep-red); font-size: 1.5rem; font-weight: 800;">"직접 이 지옥을 수습해 보시길."</p>
+            <p style="color: #7a1a1a; font-weight: 800; margin: 30px 0;">"직접 이 지옥을 수습해 보시길."</p>
             <p>눈을 뜨자, 당신은 소설 속 '계시자'가 되어 있었다.</p>
-            <p>당신의 선택에 따라 뒤틀리는 인물들의 집착과<br>세계의 멸망을 막아야 하는 가혹한 성녀의 운명 속에서—</p>
-            
-            <a href="https://share.crack.wrtn.ai/jvknh6" class="link-btn myeongjo">운명의 기록 열람하기</a>
         </div>
     </section>
 
     <section id="sec-world" class="hidden">
-        <h2 class="myeongjo" style="color:var(--deep-brown); text-align:center; font-size: 2.5rem; margin-bottom: 40px;">세계관</h2>
-        <div class="world-grid">
-            <div class="world-card">
-                <h3 class="myeongjo">잔흔</h3>
-                <p>세계의 균열에서 흘러나오는 붉은 독기. 인간의 이성을 갉아먹고 욕망을 광기로 분출시킵니다.</p>
-            </div>
-            <div class="world-card">
-                <h3 class="myeongjo">계시자</h3>
-                <p>신에게 선택받은 유일한 정화자. 타인의 고통을 자신의 몸으로 옮겨와 소멸시키는 희생자입니다.</p>
-            </div>
-            <div class="world-card">
-                <h3 class="myeongjo">성석</h3>
-                <p>제국을 지탱하는 결계석. 최근 붉은 달의 영향으로 금이 가기 시작하며 무너지고 있습니다.</p>
-            </div>
-            <div class="world-card">
-                <h3 class="myeongjo">붉은 달</h3>
-                <p>멸망의 전조. 달이 완전히 붉게 물드는 날, 세계는 심연으로 가라앉는다고 전해집니다.</p>
-            </div>
+        <h2 class="myeongjo" style="text-align:center; color:var(--deep-brown);">세계관</h2>
+        <div class="location-grid" style="grid-template-columns: 1fr 1fr; margin-top: 30px;">
+            <div class="location-tag"><strong>잔흔</strong><p>인간을 광기로 몰아넣는 붉은 독기</p></div>
+            <div class="location-tag"><strong>계시자</strong><p>고통을 옮겨 정화하는 성스러운 희생자</p></div>
         </div>
     </section>
 
     <section id="sec-chars" class="hidden">
         <div class="faction-title myeongjo">제국</div>
         <div id="grid-empire" class="location-grid"></div>
-        <div class="faction-title myeongjo" style="color:var(--deep-red);">마계</div>
+        <div class="faction-title myeongjo" style="color:#7a1a1a;">마계</div>
         <div id="grid-devildom" class="location-grid"></div>
         <div class="faction-title myeongjo" style="color:#5d4037;">기타</div>
         <div id="grid-abyss" class="location-grid"></div>
     </section>
 
-    <!-- 모달: 이미지 상단 레이아웃 -->
     <div id="charModal" class="hidden" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
             <div class="modal-top">
                 <button onclick="prevImg()" class="nav-btn" style="left:0;">❮</button>
                 <img id="mainImg" src="" alt="캐릭터">
                 <button onclick="nextImg()" class="nav-btn" style="right:0;">❯</button>
-                <div id="thumbArea" style="position:absolute; bottom:15px; width:100%; display:flex; justify-content:center; gap:8px;"></div>
             </div>
             <div class="modal-bottom">
                 <button class="close-x" onclick="closeModal()">&times;</button>
                 <div style="text-align:center;">
-                    <span id="mSubTitle" style="color:var(--royal-gold); font-weight:bold; letter-spacing:2px; font-size:0.9rem;"></span>
-                    <h2 id="mName" class="myeongjo" style="font-size:2.8rem; margin:10px 0; color:var(--deep-brown);"></h2>
+                    <span id="mSubTitle" style="color:var(--royal-gold); font-weight:bold;"></span>
+                    <h2 id="mName" class="myeongjo" style="font-size:2.5rem; margin:5px 0; color:var(--deep-brown);"></h2>
                     <div id="mTags"></div>
                 </div>
                 <div class="quote-box myeongjo"><p id="mQuote"></p></div>
-                <p id="mDesc" style="line-height:1.8; color:var(--text-sub); text-align:center; padding: 0 20px;"></p>
+                <p id="mDesc" style="line-height:1.6; color:var(--text-sub); text-align:center;"></p>
                 <div class="info-grid myeongjo">
                     <div><small>나이</small><br><strong id="mAge"></strong></div>
                     <div><small>성격</small><br><strong id="mMBTI"></strong></div>
                     <div><small>신장</small><br><strong id="mHeight"></strong></div>
                     <div><small>체중</small><br><strong id="mWeight"></strong></div>
                 </div>
+                <div id="thumbArea" style="margin-top:20px; display:flex; justify-content:center; gap:8px;"></div>
             </div>
         </div>
     </div>
 
-    <script>
+<script>
         const baseUrl = "https://pub-1ff16a5c9ef048e3ab851e262c07ba57.r2.dev/";
         const codes = ["기본⚖️", "옅은웃음", "수줍음", "눈물", "고백", "전투"];
         let current = null;
         let imgIdx = 0;
 
         const characters = [
-            { id: "아서_", name: "아서", age: "24", mbti: "ESFJ", faction: "제국", sub: "용사", height: "188cm", weight: "78kg", tags: ["#수줍음", "#충견"], quote: "제가 당신을 지키겠습니다. 그것이 제 삶의 이유니까요.", desc: "학살에서 생존한 용사지만 계시자 앞에서는 충견이 된다." },
-            { id: "카이온_", name: "카이온 델 로젠탈", age: "36", mbti: "ISTJ", faction: "제국", sub: "공작", height: "186cm", weight: "84kg", tags: ["#애정결핍", "#폭군"], quote: "어디 가지 마십시오. 제 곁에만 계셔야 합니다.", desc: "철저히 자신을 억제하며 살아왔지만 깊은 애정결핍이 있다." },
-            { id: "세드릭_", name: "세드릭 리오넬", age: "37", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남"], quote: "하하! 오늘 한 잔 어때? 거절은 안 받는다구.", desc: "북부의 호탕한 기사단장. 가벼운 태도 뒤에 위압감을 숨기고 있다." },
-            { id: "비올레타_", name: "비올레타 폰 루미엘", age: "25", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕"], quote: "나만 봐줘야 해. 다른 사람한테 웃어주는 건 싫어!", desc: "순진한 황녀를 연기하며 원하는 것을 손에 넣는다." },
-            { id: "노아_", name: "노아", age: "20", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#집착"], quote: "무릎베개 해주세요... 그럼 착한 아이로 있을게요.", desc: "실험체 출신으로 계시자에게 기괴한 집착을 보인다." },
-            { id: "카시엘_", name: "카시엘", age: "37", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "신보다 당신이 더 소중하다면, 그것 또한 죄일까요?", desc: "평생을 신께 바쳤으나 계시자를 만난 후 신앙이 흔들린다." },
-            { id: "루드비히_", name: "루드비히 폰 루미엘", age: "48", mbti: "INTJ", faction: "제국", sub: "황제", height: "193cm", weight: "101kg", tags: ["#중후함", "#피의군주"], quote: "이 나라를 네 발아래 두마. 그러니 내 곁을 떠나지 마라.", desc: "냉혹한 황제. 당신을 황궁 깊은 곳에 가두고 싶어 한다." },
-            { id: "제르카_", name: "제르카", age: "250", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#나른함"], quote: "졸려... 그냥 여기 누워 있어. 아무 데도 가지 말고.", desc: "모든 것에 흥미를 잃은 마왕. 언제 집어삼킬지 모르는 위험한 존재." },
-            { id: "펜릴_", name: "펜릴", age: "28", mbti: "ESTP", faction: "마계", sub: "늑대수인", height: "187cm", weight: "92kg", tags: ["#맹수", "#본능적"], quote: "네 냄새, 여기서 제일 달콤해. 한 입만 먹게 해줘.", desc: "속박을 싫어하는 거친 늑대수인. 본능에 충실하다." },
-            { id: "니아_", name: "니아", age: "32", mbti: "ISTJ", faction: "마계", sub: "표범수인", height: "173cm", weight: "63kg", tags: ["#은밀함", "#체취추적"], quote: "당신이 어디에 있든, 나는 찾아낼 수 있어요.", desc: "암살에 최적화된 군단장. 조용히 뒤를 밟는 기벽이 있다." },
-            { id: "릴리스_", name: "릴리스", age: "200", mbti: "ENTP", faction: "마계", sub: "마녀", height: "140cm", weight: "38kg", tags: ["#인형놀이", "#잔혹함"], quote: "인형으로 만들어줄까? 그럼 영원히 내 거잖아!", desc: "어린아이 몸에 갇힌 마녀. 살아있는 존재를 인형처럼 다룬다." },
+            { id: "아서_", name: "아서", age: "24세", mbti: "ESFJ", faction: "제국", sub: "용사", height: "188cm", weight: "78kg", tags: ["#수줍음", "#충견"], quote: "제가 당신을 지키겠습니다. 그것이 제 삶의 이유니까요.", desc: "학살에서 생존한 용사지만 계시자 앞에서는 충견이 된다." },
+            { id: "카이온_", name: "카이온 델 로젠탈", age: "36세", mbti: "ISTJ", faction: "제국", sub: "공작", height: "186cm", weight: "84kg", tags: ["#애정결핍", "#폭군"], quote: "어디 가지 마십시오. 제 곁에만 계셔야 합니다.", desc: "철저히 자신을 억제하며 살아왔지만 깊은 애정결핍이 있다." },
+            { id: "세드릭_", name: "세드릭 리오넬", age: "37세", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남"], quote: "하하! 오늘 한 잔 어때? 거절은 안 받는다구.", desc: "북부의 호탕한 기사단장. 가벼운 태도 뒤에 위압감을 숨기고 있다." },
+            { id: "비올레타_", name: "비올레타 폰 루미엘", age: "25세", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕"], quote: "나만 봐줘야 해. 다른 사람한테 웃어주는 건 싫어!", desc: "순진한 황녀를 연기하며 원하는 것을 손에 넣는다." },
+            { id: "노아_", name: "노아", age: "20세", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#집착"], quote: "무릎베개 해주세요... 그럼 착한 아이로 있을게요.", desc: "실험체 출신으로 계시자에게 기괴한 집착을 보인다." },
+            { id: "카시엘_", name: "카시엘", age: "37세", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "신보다 당신이 더 소중하다면, 그것 또한 죄일까요?", desc: "평생을 신께 바쳤으나 계시자를 만난 후 신앙이 흔들린다." },
+            { id: "루드비히_", name: "루드비히 폰 루미엘", age: "48세", mbti: "INTJ", faction: "제국", sub: "황제", height: "193cm", weight: "101kg", tags: ["#중후함", "#피의군주"], quote: "이 나라를 네 발아래 두마. 그러니 내 곁을 떠나지 마라.", desc: "냉혹한 황제. 당신을 황궁 깊은 곳에 가두고 싶어 한다." },
+            { id: "제르카_", name: "제르카", age: "250세", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#나른함"], quote: "졸려... 그냥 여기 누워 있어. 아무 데도 가지 말고.", desc: "모든 것에 흥미를 잃은 마왕. 언제 집어삼킬지 모르는 위험한 존재." },
+            { id: "펜릴_", name: "펜릴", age: "28세", mbti: "ESTP", faction: "마계", sub: "늑대수인", height: "187cm", weight: "92kg", tags: ["#맹수", "#본능적"], quote: "네 냄새, 여기서 제일 달콤해. 한 입만 먹게 해줘.", desc: "속박을 싫어하는 거친 늑대수인. 본능에 충실하다." },
+            { id: "니아_", name: "니아", age: "32세", mbti: "ISTJ", faction: "마계", sub: "표범수인", height: "173cm", weight: "63kg", tags: ["#은밀함", "#체취추적"], quote: "당신이 어디에 있든, 나는 찾아낼 수 있어요.", desc: "암살에 최적화된 군단장. 조용히 뒤를 밟는 기벽이 있다." },
+            { id: "릴리스_", name: "릴리스", age: "200세", mbti: "ENTP", faction: "마계", sub: "마녀", height: "140cm", weight: "38kg", tags: ["#인형놀이", "#잔혹함"], quote: "인형으로 만들어줄까? 그럼 영원히 내 거잖아!", desc: "어린아이 몸에 갇힌 마녀. 살아있는 존재를 인형처럼 다룬다." },
             { id: "레이_", name: "레이", age: "?", mbti: "ENTP", faction: "기타", sub: "유랑가", height: "187cm", weight: "79kg", tags: ["#능글맞은", "#방랑자"], quote: "세상은 무대고, 우린 배우지. 당신은 어떤 배역이 좋아?", desc: "대륙 전역을 유람하며 흥미로운 사건에 참견하는 방랑자." },
-            { id: "베놈_", name: "베놈", age: "25", mbti: "ESTP", faction: "기타", sub: "용병", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "자극만 준다면 무엇이든 파괴하는 광기 어린 용병." }
+            { id: "베놈_", name: "베놈", age: "25세", mbti: "ESTP", faction: "기타", sub: "용병", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "자극만 준다면 무엇이든 파괴하는 광기 어린 용병." }
         ];
 
 function showTab(tabId) {
@@ -243,11 +204,11 @@ function showTab(tabId) {
         function updateUI() {
             document.getElementById('mName').innerText = current.name;
             document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
-            document.getElementById('mAge').innerText = current.age + "세";
+            document.getElementById('mAge').innerText = current.age;
             document.getElementById('mMBTI').innerText = current.mbti;
             document.getElementById('mHeight').innerText = current.height;
             document.getElementById('mWeight').innerText = current.weight;
-            document.getElementById('mQuote').innerText = `"${current.quote}"`;
+            document.getElementById('mQuote').innerText = current.quote;
             document.getElementById('mDesc').innerText = current.desc;
             const tagArea = document.getElementById('mTags');
             tagArea.innerHTML = '';
@@ -259,13 +220,16 @@ function showTab(tabId) {
         }
 
         function updateMainPhoto() {
-            document.getElementById('mainImg').src = `${baseUrl}${current.id}N${codes[imgIdx]}.webp`;
+            // 이미지 경로 수정: 불필요한 'N' 제거 및 정확한 파일명 매칭
+            const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
+            document.getElementById('mainImg').src = fullUrl;
+            
             const thumbArea = document.getElementById('thumbArea');
             thumbArea.innerHTML = '';
             codes.forEach((code, i) => {
                 const img = document.createElement('img');
-                img.src = `${baseUrl}${current.id}N${code}.webp`;
-                img.style = `width:40px; height:25px; object-fit:cover; cursor:pointer; border:1px solid ${i===imgIdx?'var(--royal-gold)':'#555'}`;
+                img.src = `${baseUrl}${encodeURIComponent(current.id + code)}.webp`;
+                img.style = `width:50px; height:30px; object-fit:cover; cursor:pointer; border:2px solid ${i===imgIdx?'var(--royal-gold)':'#ccc'}`;
                 img.onclick = () => { imgIdx = i; updateMainPhoto(); };
                 thumbArea.appendChild(img);
             });
