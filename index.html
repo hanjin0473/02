@@ -12,92 +12,155 @@
             --abyss: #6a0dad;
             --bg: #0a0a0a;
             --card-bg: #151515;
+            --ivory: #fdfaf4;
         }
 
-        body { background: var(--bg); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { background: var(--bg); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; overflow-x: hidden; }
         .myeongjo { font-family: 'Nanum Myeongjo', serif; }
         .hidden { display: none !important; }
 
-        section { min-height: 100vh; padding: 80px 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        /* --- 상단 메인 탭 --- */
+        .main-nav { 
+            position: sticky; top: 0; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); 
+            display: flex; justify-content: center; gap: 30px; padding: 20px; z-index: 100; border-bottom: 1px solid #222;
+        }
+        .main-nav button { 
+            background: none; border: none; color: #777; font-size: 1.1rem; cursor: pointer; transition: 0.3s; padding: 5px 15px;
+        }
+        .main-nav button.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
 
-        /* --- 세력 그리드 스타일 --- */
-        .faction-group { width: 100%; max-width: 1000px; margin-bottom: 60px; }
+        section { min-height: 100vh; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+
+        /* --- 서브 탭 (세력 내부) --- */
+        .sub-tab-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
+        .sub-btn { 
+            background: #1a1a1a; border: 1px solid #333; color: #888; padding: 8px 20px; 
+            border-radius: 20px; cursor: pointer; font-size: 0.9rem;
+        }
+        .sub-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+        /* --- 세력 및 인물 레이아웃 --- */
+        .faction-group { width: 100%; margin-bottom: 60px; animation: fadeIn 0.8s ease-out; }
         .faction-title { font-size: 2rem; color: var(--gold); border-left: 5px solid var(--gold); padding-left: 15px; margin-bottom: 25px; }
-        
-        .location-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; width: 100%; }
+        .location-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .location-tag { 
             background: #1a1a1a; padding: 20px; text-align: center; border: 1px solid #333; 
             transition: 0.3s; cursor: pointer; border-radius: 4px;
         }
         .location-tag:hover { border-color: var(--gold); transform: translateY(-5px); background: #222; }
 
-        /* --- 모달 레이아웃 --- */
-        #charModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+        /* 어비스 특수 스타일 */
+        .faction-abyss { background: linear-gradient(180deg, transparent, rgba(106, 13, 173, 0.1)); padding: 40px; border-radius: 15px; border: 1px dashed var(--abyss); }
+
+        /* --- 세력 관계도(대립 구조) --- */
+        .relation-box { 
+            background: #111; border: 1px solid #222; padding: 40px; border-radius: 8px; line-height: 1.8;
+            max-width: 800px; margin: 0 auto;
+        }
+        .relation-box h3 { color: var(--gold); border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .vs-badge { 
+            display: inline-block; padding: 2px 10px; background: var(--crimson); color: #fff; 
+            font-weight: bold; margin: 0 10px; border-radius: 4px; font-size: 0.8rem;
+        }
+
+        /* --- 모달 스타일 (제공해주신 코드 유지/강화) --- */
+        #charModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; }
         .modal-content { 
             background: var(--card-bg); width: 90%; max-width: 900px; max-height: 90vh; 
             border: 1px solid var(--gold); position: relative; padding: 30px; overflow-y: auto;
             display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px;
         }
-
-        /* 이미지 슬라이더 */
         .slider-box { position: relative; width: 100%; height: 450px; background: #000; border: 1px solid #333; }
         .slider-box img { width: 100%; height: 100%; object-fit: cover; }
-        .nav-btn { 
-            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); 
-            color: var(--gold); border: none; font-size: 1.5rem; cursor: pointer; padding: 15px 10px; z-index: 10;
-        }
-        .nav-btn:hover { background: var(--gold); color: #000; }
-        
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: var(--gold); border: none; cursor: pointer; padding: 15px 10px; }
         #thumbArea { display: flex; gap: 8px; margin-top: 15px; justify-content: center; overflow-x: auto; }
         .thumb-img { width: 50px; height: 65px; object-fit: cover; cursor: pointer; opacity: 0.5; border: 2px solid transparent; }
         .thumb-img.active { opacity: 1; border-color: var(--gold); }
+        .awaken-btn { width: 100%; margin-top: 15px; padding: 12px; background: var(--crimson); color: #fff; border: none; cursor: pointer; font-weight: bold; }
+        .quote-box { background: rgba(197, 160, 89, 0.1); padding: 20px; border-radius: 8px; margin: 20px 0; font-style: italic; text-align: center; }
 
-        .awaken-btn { 
-            width: 100%; margin-top: 15px; padding: 12px; background: var(--crimson); color: #fff; 
-            border: none; cursor: pointer; font-weight: bold; letter-spacing: 2px;
-        }
-
-        /* 정보 텍스트 */
-        .info-header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
-        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem; color: #ccc; }
-        .grid-info b { color: var(--gold); margin-right: 5px; }
-        .quote-box { background: rgba(197, 160, 89, 0.1); padding: 20px; border-radius: 8px; margin: 20px 0; font-style: italic; text-align: center; color: #fff; }
-        .tag-item { color: var(--gold); font-size: 0.85rem; margin-right: 8px; }
-
-        @media (max-width: 768px) {
-            .modal-content { grid-template-columns: 1fr; }
-            .slider-box { height: 350px; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; } .slider-box { height: 350px; } }
     </style>
 </head>
 <body>
-
-    <!-- 세력 섹션 -->
-    <section id="page-factions">
-        <h2 class="myeongjo" style="font-size: 3rem; color: var(--gold); margin-bottom: 50px; text-align: center;">CHARACTERS</h2>
-        
-        <div class="faction-group">
-            <div class="faction-title myeongjo">제국 (The Empire)</div>
-            <div id="grid-empire" class="location-grid"></div>
+<!-- PAGE 1: 소설 시놉시스 및 입장 -->
+    <section id="page-intro">
+        <h1 class="main-title">LUNATIC LOG</h1>
+        <div class="synopsis myeongjo">
+            <p>모두가 구원받는 해피엔딩을 원했다.</p>
+            <p>하지만 소설의 끝은 붉은 달이 차오르는 절망뿐.</p>
+            <p>마지막 페이지를 넘긴 당신에게 들려온 목소리—</p>
+            <p style="color: var(--gold); font-size: 1.4rem; margin-top: 20px;"><strong>"직접 이 지옥을 수습해 보시길."</strong></p>
+            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 30px;">눈을 뜨자, 당신은 자신이 쓴 피폐 소설 속 '계시자'가 되어 있었다.</p>
+        </div>
+        <button class="enter-btn" onclick="startExperience()">기록 속으로 입장</button>
+    </section>
+<div id="tab-world" class="tab-content">
+            <h2 class="section-title myeongjo">THE WORLDVIEW</h2>
+            <div class="world-grid">
+                <div class="world-card">
+                    <h3>잔흔 (Remnant)</h3>
+                    <p>세계의 균열에서 흘러나오는 붉은 에너지. 인간의 정신을 침식하고 광기에 빠뜨려 마물로 변이시킵니다. 이 에너지가 쌓이면 하늘에는 붉은 달이 차오릅니다.</p>
+                </div>
+                <div class="world-card">
+                    <h3>계시자 (The Oracle)</h3>
+                    <p>유일하게 '정화'의 힘을 가진 존재. 타인의 잔흔을 자신의 몸으로 받아내어 소멸시킬 수 있습니다. 하지만 그 대가로 계시자는 극심한 정신적 고통을 겪게 됩니다.</p>
+                </div>
+                <div class="world-card">
+                    <h3>성석 (Holy Stone)</h3>
+                    <p>제국의 질서를 유지하는 근간. 잔흔의 침입을 막는 거대한 결계를 형성하지만, 성석이 오염될수록 결계는 무너지고 마계의 경계가 흐릿해집니다.</p>
+                </div>
+                <div class="world-card">
+                    <h3>심연핵 (Abyss Core)</h3>
+                    <p>모든 균열의 근원이자 세계 붕괴의 시작점. 붉은 달이 가장 높이 뜨는 날, 심연핵을 정화하지 못하면 세계는 영원한 광기에 잠기게 됩니다.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="faction-group">
-            <div class="faction-title myeongjo" style="color: var(--crimson); border-color: var(--crimson);">마계 (The Devildom)</div>
-            <div id="grid-devildom" class="location-grid"></div>
+    <!-- [TAB 2] 세력 및 인물 섹션 -->
+    <section id="sec-factions">
+        <!-- 서브 탭 메뉴 -->
+        <div class="sub-tab-container myeongjo">
+            <button class="sub-btn active" onclick="showSubTab('list')">인물 정보</button>
+            <button class="sub-btn" onclick="showSubTab('relation')">세력 대립 구조</button>
         </div>
 
-        <div class="faction-group">
-            <div class="faction-title myeongjo" style="color: var(--abyss); border-color: var(--abyss);">어비스 (The Abyss)</div>
-            <div id="grid-abyss" class="location-grid"></div>
+        <!-- 서브탭 1: 인물 리스트 -->
+        <div id="sub-list">
+            <div class="faction-group">
+                <div class="faction-title myeongjo">제국</div>
+                <div id="grid-empire" class="location-grid"></div>
+            </div>
+
+            <div class="faction-group">
+                <div class="faction-title myeongjo" style="color: var(--crimson); border-color: var(--crimson);">마계</div>
+                <div id="grid-devildom" class="location-grid"></div>
+            </div>
+
+            <div class="faction-group faction-abyss">
+                <div class="faction-title myeongjo" style="color: var(--abyss); border-color: var(--abyss);">어비스</div>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">* 세계의 이면에 숨겨진 베일에 싸인 조직입니다.</p>
+                <div id="grid-abyss" class="location-grid"></div>
+            </div>
+        </div>
+
+        <!-- 서브탭 2: 세력 대립 구조 -->
+        <div id="sub-relation" class="hidden">
+            <div class="relation-box">
+                <h3 class="myeongjo">인간 <span class="vs-badge">VS</span> 마족</h3>
+                <p>제국은 성석의 정화 한계를 넘으면, 축적된 잔흔을 마계 접경지로 밀어내는 <strong>‘배출 의식’</strong>을 시행합니다. 이 의식으로 인해 마족은 작열통이 극에 달해 국경을 침공하고, 제국은 이를 ‘마성 오염’이라 규정하며 섬멸 명령을 내립니다. 이 과정에서 두 종족 모두 내부 갈등과 신념의 흔들림을 겪게 됩니다.</p>
+                
+                <h3 class="myeongjo" style="margin-top:40px;">연합 <span class="vs-badge" style="background:var(--abyss)">VS</span> 어비스</h3>
+                <p>어비스는 세계 붕괴를 지연시키기 위해 특정 지역의 잔흔 임계치를 폭발시켜 <strong>‘희생양’</strong>을 만듭니다. 이에 인간과 마족은 어비스에 대항하기 위해 일시적으로 연합하지만, 서로의 이해관계와 목적 충돌로 내부 배신이 필연적으로 발생합니다. 이 과정에서 각 세력은 조종과 보호 사이에서 혼란과 갈등을 경험합니다.</p>
+            </div>
         </div>
     </section>
 
-    <!-- 상세 모달 -->
+    <!-- 상세 모달 (코드 동일 유지) -->
     <div id="charModal" class="hidden">
         <div class="modal-content">
             <button onclick="closeModal()" style="position:absolute; top:15px; right:20px; background:none; border:none; color:var(--gold); font-size:2.5rem; cursor:pointer;">&times;</button>
-            
-            <!-- 왼쪽: 비주얼 -->
             <div>
                 <div class="slider-box">
                     <button onclick="prevImg()" class="nav-btn" style="left:0;">❮</button>
@@ -107,32 +170,23 @@
                 <div id="thumbArea"></div>
                 <button id="awakenBtn" class="awaken-btn" onclick="toggleAwakening()">본모습 개방</button>
             </div>
-
-            <!-- 오른쪽: 정보 -->
             <div id="infoArea">
-                <div class="info-header">
+                <div class="info-header" style="border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px;">
                     <h2 id="mName" class="myeongjo" style="font-size:2.2rem; color:var(--gold); margin:0;"></h2>
                     <span id="mSubTitle" style="color:#888; font-size:0.9rem;"></span>
                 </div>
-                <div class="grid-info">
-                    <div><b>나이</b> <span id="mAge"></span></div>
-                    <div><b>MBTI</b> <span id="mMBTI"></span></div>
-                    <div><b>신장</b> <span id="mHeight"></span></div>
-                    <div><b>체중</b> <span id="mWeight"></span></div>
-                </div>
-                <div id="mTags" style="margin-top:15px;"></div>
-                <div class="quote-box">
-                    <p id="mQuote" style="margin:0;"></p>
-                </div>
+                <div id="mTags" style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap;"></div>
+                <div class="quote-box"><p id="mQuote" style="margin:0;"></p></div>
                 <p id="mDesc" style="line-height:1.8; color:#bbb; font-size:0.95rem;"></p>
-                <div style="margin-top:20px; padding-top:15px; border-top:1px solid #333; font-size:0.85rem;">
+                <div style="margin-top:20px; padding-top:15px; border-top:1px solid #333; font-size:0.85rem; display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <p><b>Like:</b> <span id="mLikes"></span></p>
                     <p><b>Dislike:</b> <span id="mDislikes"></span></p>
                 </div>
             </div>
         </div>
     </div>
-  <script>
+
+    <script>
     const baseUrl = "https://pub-1ff16a5c9ef048e3ab851e262c07ba57.r2.dev/";
     const codes = ["기본⚖️", "옅은웃음", "수줍음", "눈", "고백", "전투"];
     let current = null;
