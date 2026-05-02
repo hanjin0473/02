@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        :root {
+            --gold: #c5a059;
+            --crimson: #8b0000;
+            --abyss: #1a0a25;
+            --bg: #0a0a0a;
+        }
+
+        body { background: var(--bg); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 20px; }
+        .myeongjo { font-family: 'Nanum Myeongjo', serif; }
+
+        /* --- 이미지 슬라이더 영역 --- */
+        .gallery-container {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            position: relative;
+            text-align: center;
+        }
+
+        .main-img-box {
+            width: 100%;
+            height: 500px;
+            background: #111;
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 화살표 버튼 */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: var(--gold);
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 10px 15px;
+            z-index: 10;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* 섬네일 영역 */
+        .thumb-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .thumb {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .thumb.active { border-color: var(--gold); opacity: 1; }
+
+        /* --- 캐릭터 상세 정보 카드 --- */
+        .info-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #151515;
+            border: 1px solid #333;
+            padding: 40px;
+            position: relative;
+        }
+
+        .info-header { border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 20px; }
+        .info-header h2 { font-size: 2.2rem; margin: 0; color: var(--gold); }
+        .info-header span { font-size: 1rem; color: #888; }
+
+        .grid-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-item b { color: var(--gold); margin-right: 10px; font-size: 0.9rem; }
+
+        .quote-box {
+            font-size: 1.2rem;
+            color: #ccc;
+            font-style: italic;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(197, 160, 89, 0.05);
+            border-radius: 8px;
+        }
+
+        .tag-list { color: var(--gold); font-size: 0.9rem; margin-bottom: 15px; }
+
+        .desc-section { line-height: 1.8; color: #bbb; margin-bottom: 20px; }
+        
+        .hl-box { 
+            display: flex; 
+            gap: 20px; 
+            background: #111; 
+            padding: 15px; 
+            font-size: 0.85rem;
+            border: 1px solid #222;
+        }
+        .hl-box b { color: var(--gold); }
+    </style>
+</head>
+<body>
+  <script>
+    const baseUrl = "https://pub-1ff16a5c9ef048e3ab851e262c07ba57.r2.dev/";
+    const codes = ["기본⚖️", "옅은웃음", "수줍음", "눈", "고백", "전투"];
+    let current = null;
+    let isAwake = false;
+    let imgIdx = 0;
+
+    const characters = [
+        // 제국
+        { id: "아서_", name: "아서", age: "24", mbti: "ESFJ", faction: "제국", sub: "용사", height: "188cm", weight: "78kg", tags: ["#수줍음", "#충견", "#강인함"], quote: "제가 당신을 지키겠습니다. 그것이 제 삶의 이유니까요.", desc: "학살에서 유일하게 생존한 강인한 용사지만, 계시자 앞에서는 한없이 약해지는 충견이다.", likes: "달콤한 빵, 훈련, 칭찬", dislikes: "배신, 굶주림, 냉대" },
+        { id: "카이온_", name: "카이온 델 로젠탈", age: "36", mbti: "ISTJ", faction: "제국", sub: "공작", height: "186cm", weight: "84kg", tags: ["#애정결핍", "#질투구속", "#폭군"], quote: "어디 가지 마십시오. 제 곁에만 계셔야 합니다.", desc: "몰락한 가문의 가주로서 철저히 자신을 억제하며 살아왔지만, 내면에는 깊은 애정결핍이 숨겨져 있다.", likes: "따뜻한 차, 정돈된 공간", dislikes: "방치, 소음" },
+        { id: "세드릭_", name: "세드릭 리오넬", age: "37", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남", "#승부사"], quote: "하하! 오늘 한 잔 어때? 아, 거절은 안 받는다구.", desc: "북부의 거친 환경을 지배하는 호탕한 기사단장. 가벼운 태도 뒤에 압도적인 위압감을 숨기고 있다.", likes: "술, 고기, 승부", dislikes: "비겁함, 우울한 분위기" },
+        { id: "비올레타_", name: "비올레타 폰 루미엘", age: "25", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕", "#공주님"], quote: "나만 봐줘야 해. 다른 사람한테 웃어주는 건 싫어!", desc: "살아남기 위해 순진한 황녀를 연기합니다. 원하는 것을 손에 넣기 위해서라면 무엇이든 할 준비가 되어 있다.", likes: "보석, 칭찬, 디저트", dislikes: "무시, 지루함" },
+        { id: "노아_", name: "노아", age: "20", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#", "#실험체"], quote: "무릎베개 해주세요... 그럼 착한 아이로 있을게요.", desc: "실험체 출신으로 인간을 믿지 않지만, 계시자에게 기괴한 집착을 보이며 가스라이팅을 일삼는다.", likes: "무릎베개, 사탕", dislikes: "거짓말, 격리" },
+        { id: "카시엘_", name: "카시엘", age: "37", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#광신도", "#쑥맥"], quote: "신보다 당신이 더 소중하다면, 그것 또한 죄일까요?", desc: "평생을 신께 바쳤으나 계시자를 만난 후 신앙이 흔들리기 시작한다. 부드럽지만 광기 어린 헌신을 보인다.", likes: "기도실, 차분한 대화", dislikes: "폭언, 무의미한 살상" },
+        { id: "루드비히_", name: "루드비히 폰 루미엘", age: "48", mbti: "INTJ", faction: "제국", sub: "황제", height: "193cm", weight: "101kg", tags: ["#중후함", "#유폐", "#피의군주"], quote: "이 나라를 네 발아래 두마. 그러니 내 곁을 떠나지 마라.", desc: "피의 즉위를 통해 권좌를 차지한 냉혹한 황제. 당신을 황궁 가장 깊은 곳에 가두고 싶어 한다.", likes: "질서, 홍차, 유능한 인재", dislikes: "배반, 소란" },
+        // 마계
+        { id: "제르카_", name: "제르카", age: "250", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#영혼포식", "#나른함"], quote: "졸려... 그냥 여기 누워 있어. 아무 데도 가지 말고.", desc: "모든 것에 흥미를 잃은 마왕. 고양이처럼 굴지만 언제 영혼을 집어삼킬지 모르는 위험한 존재다.", likes: "낮잠, 고요함", dislikes: "소음, 집착당함" },
+        { id: "펜릴_", name: "펜릴", age: "28", mbti: "ESTP", faction: "마계", sub: "늑대수인/군단장", height: "187cm", weight: "92kg", tags: ["#맹수", "#노예출신", "#본능적"], quote: "네 냄새, 여기서 제일 달콤해. 한 입만 먹게 해줘.", desc: "속박을 극도로 싫어하는 거친 늑대수인. 툴툴거리면서도 체취를 쫓아다니는 본능에 충실한다.", likes: "사냥, 고기", dislikes: "거짓말, 겁쟁이" },
+        { id: "니아_", name: "니아", age: "32", mbti: "ISTJ", faction: "마계", sub: "표범수인/암살자", height: "173cm", weight: "63kg", tags: ["#흔적수집", "#체취추적", "#은밀함"], quote: "당신이 어디에 있든, 나는 찾아낼 수 있어요.", desc: "암살에 최적화 된 마계의 군단장. 조용히 뒤를 밟으며 체취를 기록하고 수집하는 기벽이 있다.", likes: "조용한 밤, 향기", dislikes: "배신, 혼잡함" },
+        { id: "릴리스_", name: "릴리스", age: "200", mbti: "ENTP", faction: "마계", sub: "마녀/군단장", height: "140cm", weight: "38kg", tags: ["#인형놀이", "#유아체형", "#잔혹함"], quote: "인형으로 만들어줄까? 그럼 영원히 내 거잖아!", desc: "저주로 인해 어린아이의 몸에 갇힌 강력한 마녀. 살아있는 존재를 인형처럼 다루는 것을 즐긴다.", likes: "장난감, 과자", dislikes: "무시, 훈계" },
+        // 기타
+       { id: "레이_", name: "레이", age: "?", mbti: "ENTP", faction: "기타", sub: "유랑가", height: "187cm", weight: "79kg", tags: ["#능글맞은", "#설계자", "#방랑자"], quote: "세상은 무대고, 우린 배우지. 당신은 어떤 배역이 좋아?", desc: "대륙 전역을 유람하며 흥미로운 사건에 참견하기 좋아하는 방랑자. 유쾌한 태도 뒤에 무언가 숨기는 듯한 신비로운 분위기를 풍긴다.", likes: "심리전, 와인", dislikes: "권태, 명령" },
+       { id: "베놈_", name: "베놈", age: "25", mbti: "ESTP", faction: "기타", sub: "???", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신", "#충동적"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "돈과 자극만 준다면 무엇이든 파괴하는 거친 용병.광기 어린 태도로 상대를 압도한다.", likes: "자극, 쾌락", dislikes: "동정, 훈계" }
+    ];
+
+    function renderGrids() {
+        characters.forEach(char => {
+            const card = document.createElement('div');
+            card.className = 'location-tag';
+            card.style.cursor = 'pointer';
+            card.innerHTML = `<strong>${char.name}</strong><br><small>${char.sub}</small>`;
+            card.onclick = () => openModal(char);
+
+            if (char.faction === "제국") document.getElementById('grid-empire').appendChild(card);
+            else if (char.faction === "마계") document.getElementById('grid-devildom').appendChild(card);
+            else if (char.faction === "기타") document.getElementById('grid-abyss').appendChild(card);
+        });
+    }
+
+    function openModal(char) {
+        current = char;
+        isAwake = false;
+        imgIdx = 0;
+        document.getElementById('charModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        updateUI();
+    }
+
+    function updateUI() {
+        document.getElementById('mName').innerText = current.name;
+        document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
+        document.getElementById('mAge').innerText = current.age;
+        document.getElementById('mMBTI').innerText = current.mbti;
+        document.getElementById('mHeight').innerText = current.height;
+        document.getElementById('mWeight').innerText = current.weight;
+        document.getElementById('mQuote').innerText = `"${current.quote}"`;
+        document.getElementById('mDesc').innerText = current.desc;
+        document.getElementById('mLikes').innerText = current.likes;
+        document.getElementById('mDislikes').innerText = current.dislikes;
+
+        const tagArea = document.getElementById('mTags');
+        tagArea.innerHTML = current.tags.join(' ');
+
+        updateMainPhoto();
+        renderThumbs();
+    }
+
+    function renderThumbs() {
+        const thumbArea = document.getElementById('thumbArea');
+        thumbArea.innerHTML = '';
+        const mode = isAwake ? 'T' : 'N';
+        codes.forEach((code, i) => {
+            const img = document.createElement('img');
+            img.src = `${baseUrl}${current.id}_${mode}${code}.webp`;
+            img.style.width = "50px";
+            img.style.height = "60px";
+            img.style.objectFit = "cover";
+            img.style.cursor = "pointer";
+            img.style.border = i === imgIdx ? "2px solid var(--gold)" : "2px solid transparent";
+            img.onclick = () => { imgIdx = i; updateMainPhoto(); };
+            thumbArea.appendChild(img);
+        });
+    }
+
+    function updateMainPhoto() {
+        const mode = isAwake ? 'T' : 'N';
+        document.getElementById('mainImg').src = `${baseUrl}${current.id}_${mode}${codes[imgIdx]}.webp`;
+        renderThumbs();
+    }
+
+    function closeModal() { document.getElementById('charModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
+    window.onload = renderGrids;
+</script>
