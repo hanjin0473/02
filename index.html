@@ -10,16 +10,16 @@
             --royal-gold: #b38b4d;
             --deep-brown: #3e2723;
             --warm-brown: #d7ccc8;
-            --antique-bg: #e0d7cc; /* 눈이 편안한 갈색 톤 */
+            --antique-bg: #e0d7cc;
             --paper: #fdfaf5; 
             --text-main: #2c1b18;
             --text-sub: #5d4037;
             --border: #c4b5a2;
+            --point-red: #7a1a1a;
         }
 
         body { 
             background-color: var(--antique-bg); 
-            /* 줄무늬 대신 눈이 편한 부드러운 종이 질감 사용 */
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             color: var(--text-main); 
             font-family: 'Noto Sans KR', sans-serif; 
@@ -44,16 +44,33 @@
         }
         .main-nav button.active { color: var(--royal-gold); text-shadow: 0 0 10px rgba(179,139,77,0.5); }
 
-        /* --- 섹션 --- */
+        /* --- 섹션 공통 --- */
         section { 
             max-width: 900px; margin: 40px auto; padding: 50px;
             background: var(--paper); border: 1px solid var(--border);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .prologue-title { text-align: center; color: var(--deep-brown); font-size: 3rem; margin-bottom: 5px; }
+        .section-title { text-align: center; color: var(--deep-brown); font-size: 2.5rem; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+
+        /* --- 프롤로그 --- */
+        .prologue-title { text-align: center; color: var(--deep-brown); font-size: 3.5rem; margin-bottom: 5px; }
         .prologue-sub { text-align: center; color: var(--royal-gold); letter-spacing: 8px; margin-bottom: 40px; font-size: 0.9rem; }
-        .prologue-content { line-height: 2.5; text-align: center; font-size: 1.1rem; }
+        .prologue-content { line-height: 2.8; text-align: center; font-size: 1.15rem; margin-bottom: 50px; }
+        
+        .main-btn {
+            display: block; width: fit-content; margin: 0 auto; padding: 15px 40px;
+            background: var(--deep-brown); color: var(--royal-gold);
+            border: 1px solid var(--royal-gold); text-decoration: none;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .main-btn:hover { background: var(--royal-gold); color: white; }
+
+        /* --- 세계관 보강 --- */
+        .world-item { margin-bottom: 40px; padding: 25px; border-left: 4px solid var(--royal-gold); background: rgba(215, 204, 200, 0.2); }
+        .world-item h3 { margin-top: 0; color: var(--point-red); font-size: 1.5rem; }
+        .world-item p { line-height: 1.8; color: var(--text-sub); margin-bottom: 0; }
+        .world-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         /* --- 캐릭터 그리드 --- */
         .faction-title { font-size: 2rem; color: var(--deep-brown); text-align: center; margin: 60px 0 30px; }
@@ -62,31 +79,23 @@
             background: white; padding: 20px; text-align: center; 
             border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
         }
-        .location-tag:hover { border-color: var(--royal-gold); background: #fdf2e9; }
+        .location-tag:hover { border-color: var(--royal-gold); background: #fdf2e9; transform: translateY(-3px); }
 
-        /* --- 모달 (가로 이미지 최적화) --- */
+        /* --- 모달 --- */
         #charModal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { 
             background: var(--paper); width: 100%; max-width: 800px; max-height: 90vh; 
             border: 2px solid var(--royal-gold); overflow-y: auto; display: flex; flex-direction: column;
         }
-        
         .modal-top { position: relative; width: 100%; background: #111; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         #mainImg { width: 100%; height: auto; display: block; }
-        
         .modal-bottom { padding: 30px; position: relative; background: var(--paper); }
         .close-x { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: var(--royal-gold); cursor: pointer; background: none; border: none; }
-
-        .info-grid { 
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
-            margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center;
-        }
+        .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center; }
         .info-grid small { color: var(--royal-gold); font-size: 0.8rem; }
-        .quote-box { font-size: 1.2rem; color: #7a1a1a; margin: 20px 0; text-align: center; font-weight: bold; line-height: 1.4; }
+        .quote-box { font-size: 1.2rem; color: var(--point-red); margin: 20px 0; text-align: center; font-weight: bold; line-height: 1.4; }
         .tag-item { color: var(--royal-gold); font-weight: bold; margin-right: 10px; font-size: 0.9rem; }
-
         .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; padding: 15px 10px; cursor: pointer; font-size: 1.2rem; z-index: 5; }
-        .nav-btn:hover { background: rgba(0,0,0,0.7); }
     </style>
 </head>
 <body>
@@ -97,34 +106,58 @@
         <button id="nav-chars" onclick="showTab('chars')">인물 정보</button>
     </nav>
 
+    <!-- 프롤로그 섹션 -->
     <section id="sec-prologue">
         <h1 class="cinzel prologue-title">LUNATIC LOG</h1>
         <p class="cinzel prologue-sub">The Oracle of Shattered Fate</p>
         <div class="prologue-content myeongjo">
             <p>모두가 구원받는 해피엔딩을 원했다.</p>
             <p>하지만 소설의 끝은 붉은 달이 차오르는 절망뿐.</p>
-            <p style="color: #7a1a1a; font-weight: 800; margin: 30px 0;">"직접 이 지옥을 수습해 보시길."</p>
+            <p style="color: var(--point-red); font-weight: 800; margin: 30px 0; font-size: 1.4rem;">"직접 이 지옥을 수습해 보시길."</p>
             <p>눈을 뜨자, 당신은 소설 속 '계시자'가 되어 있었다.</p>
+            <p>뒤틀린 운명의 수레바퀴를 돌릴 유일한 존재.<br>이제 당신의 이야기가 시작된다.</p>
         </div>
+        <!-- 복구된 이동 버튼 -->
+        <button class="main-btn myeongjo" onclick="showTab('chars')">운명의 인물들 만나기</button>
     </section>
 
+    <!-- 세계관 섹션 (보강됨) -->
     <section id="sec-world" class="hidden">
-        <h2 class="myeongjo" style="text-align:center; color:var(--deep-brown);">세계관</h2>
-        <div class="location-grid" style="grid-template-columns: 1fr 1fr; margin-top: 30px;">
-            <div class="location-tag"><strong>잔흔</strong><p>인간을 광기로 몰아넣는 붉은 독기</p></div>
-            <div class="location-tag"><strong>계시자</strong><p>고통을 옮겨 정화하는 성스러운 희생자</p></div>
+        <h2 class="myeongjo section-title">세계관</h2>
+        
+        <div class="world-item myeongjo">
+            <h3>🩸 잔흔</h3>
+            <p>차원의 균열에서 스며 나오는 붉은 안개이자 독기입니다. 생명체의 이성을 마비시키고 내면의 가장 어두운 욕망을 광기로 폭주시키는 성질을 가지고 있습니다. 대륙 곳곳이 이 잔흔에 오염되어 가고 있습니다.</p>
+        </div>
+
+        <div class="world-grid myeongjo">
+            <div class="world-item">
+                <h3>✨ 계시자</h3>
+                <p>신에게 선택받은 유일한 정화의 힘을 가진 존재. 타인의 몸에 쌓인 잔흔을 자신의 몸으로 옮겨와 소멸시킬 수 있지만, 그 과정에서 극심한 고통을 동반하며 생명력을 갉아먹히는 가혹한 운명을 가집니다.</p>
+            </div>
+            <div class="world-item">
+                <h3>🌙 붉은 달</h3>
+                <p>소설 속 멸망의 징조. 달이 완전히 붉게 물드는 날, 현세와 심연의 경계가 무너지고 대륙은 영원한 어둠 속으로 가라앉게 됩니다. 현재 달은 조금씩 붉은 빛을 더해가고 있습니다.</p>
+            </div>
+        </div>
+
+        <div class="world-item myeongjo">
+            <h3>🏰 제국 루미엘 (Empire of Lumiel)</h3>
+            <p>대륙의 중심이자 성석의 가호 아래 번영했던 국가. 하지만 성석에 금이 가기 시작하며 황실 내부에서는 권력 다툼과 광기가 소용돌이치고 있습니다. 계시자인 당신을 보호한다는 명목 하에 독점하려 합니다.</p>
         </div>
     </section>
 
+    <!-- 인물 정보 섹션 -->
     <section id="sec-chars" class="hidden">
         <div class="faction-title myeongjo">제국</div>
         <div id="grid-empire" class="location-grid"></div>
-        <div class="faction-title myeongjo" style="color:#7a1a1a;">마계</div>
+        <div class="faction-title myeongjo" style="color:var(--point-red);">마계</div>
         <div id="grid-devildom" class="location-grid"></div>
         <div class="faction-title myeongjo" style="color:#5d4037;">기타</div>
         <div id="grid-abyss" class="location-grid"></div>
     </section>
 
+    <!-- 인물 상세 모달 -->
     <div id="charModal" class="hidden" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
             <div class="modal-top">
@@ -175,71 +208,70 @@
         ];
 
 function showTab(tabId) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.querySelectorAll('.main-nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
-            document.getElementById(`nav-${tabId}`).classList.add('active');
-            window.scrollTo(0,0);
-        }
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('.main-nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+        document.getElementById(`nav-${tabId}`).classList.add('active');
+        window.scrollTo(0,0);
+    }
 
-        function renderGrids() {
-            characters.forEach(char => {
-                const card = document.createElement('div');
-                card.className = 'location-tag myeongjo';
-                card.innerHTML = `<small style="color:var(--royal-gold)">${char.sub}</small><br><strong>${char.name}</strong>`;
-                card.onclick = () => openModal(char);
-                if (char.faction === "제국") document.getElementById('grid-empire').appendChild(card);
-                else if (char.faction === "마계") document.getElementById('grid-devildom').appendChild(card);
-                else document.getElementById('grid-abyss').appendChild(card);
-            });
-        }
+    function renderGrids() {
+        characters.forEach(char => {
+            const card = document.createElement('div');
+            card.className = 'location-tag myeongjo';
+            card.innerHTML = `<small style="color:var(--royal-gold)">${char.sub}</small><br><strong>${char.name}</strong>`;
+            card.onclick = () => openModal(char);
+            if (char.faction === "제국") document.getElementById('grid-empire').appendChild(card);
+            else if (char.faction === "마계") document.getElementById('grid-devildom').appendChild(card);
+            else document.getElementById('grid-abyss').appendChild(card);
+        });
+    }
 
-        function openModal(char) {
-            current = char; imgIdx = 0;
-            document.getElementById('charModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            updateUI();
-        }
+    function openModal(char) {
+        current = char; imgIdx = 0;
+        document.getElementById('charModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        updateUI();
+    }
 
-        function updateUI() {
-            document.getElementById('mName').innerText = current.name;
-            document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
-            document.getElementById('mAge').innerText = current.age;
-            document.getElementById('mMBTI').innerText = current.mbti;
-            document.getElementById('mHeight').innerText = current.height;
-            document.getElementById('mWeight').innerText = current.weight;
-            document.getElementById('mQuote').innerText = current.quote;
-            document.getElementById('mDesc').innerText = current.desc;
-            const tagArea = document.getElementById('mTags');
-            tagArea.innerHTML = '';
-            current.tags.forEach(t => {
-                const s = document.createElement('span'); s.className = 'tag-item'; s.innerText = t;
-                tagArea.appendChild(s);
-            });
-            updateMainPhoto();
-        }
+    function updateUI() {
+        document.getElementById('mName').innerText = current.name;
+        document.getElementById('mSubTitle').innerText = `${current.faction} | ${current.sub}`;
+        document.getElementById('mAge').innerText = current.age;
+        document.getElementById('mMBTI').innerText = current.mbti;
+        document.getElementById('mHeight').innerText = current.height;
+        document.getElementById('mWeight').innerText = current.weight;
+        document.getElementById('mQuote').innerText = current.quote;
+        document.getElementById('mDesc').innerText = current.desc;
+        const tagArea = document.getElementById('mTags');
+        tagArea.innerHTML = '';
+        current.tags.forEach(t => {
+            const s = document.createElement('span'); s.className = 'tag-item'; s.innerText = t;
+            tagArea.appendChild(s);
+        });
+        updateMainPhoto();
+    }
 
-        function updateMainPhoto() {
-            // 이미지 경로 수정: 불필요한 'N' 제거 및 정확한 파일명 매칭
-            const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
-            document.getElementById('mainImg').src = fullUrl;
-            
-            const thumbArea = document.getElementById('thumbArea');
-            thumbArea.innerHTML = '';
-            codes.forEach((code, i) => {
-                const img = document.createElement('img');
-                img.src = `${baseUrl}${encodeURIComponent(current.id + code)}.webp`;
-                img.style = `width:50px; height:30px; object-fit:cover; cursor:pointer; border:2px solid ${i===imgIdx?'var(--royal-gold)':'#ccc'}`;
-                img.onclick = () => { imgIdx = i; updateMainPhoto(); };
-                thumbArea.appendChild(img);
-            });
-        }
+    function updateMainPhoto() {
+        const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
+        document.getElementById('mainImg').src = fullUrl;
+        
+        const thumbArea = document.getElementById('thumbArea');
+        thumbArea.innerHTML = '';
+        codes.forEach((code, i) => {
+            const img = document.createElement('img');
+            img.src = `${baseUrl}${encodeURIComponent(current.id + code)}.webp`;
+            img.style = `width:50px; height:30px; object-fit:cover; cursor:pointer; border:2px solid ${i===imgIdx?'var(--royal-gold)':'#ccc'}`;
+            img.onclick = () => { imgIdx = i; updateMainPhoto(); };
+            thumbArea.appendChild(img);
+        });
+    }
 
-        function nextImg() { imgIdx = (imgIdx + 1) % codes.length; updateMainPhoto(); }
-        function prevImg() { imgIdx = (imgIdx - 1 + codes.length) % codes.length; updateMainPhoto(); }
-        function closeModal() { document.getElementById('charModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+    function nextImg() { imgIdx = (imgIdx + 1) % codes.length; updateMainPhoto(); }
+    function prevImg() { imgIdx = (imgIdx - 1 + codes.length) % codes.length; updateMainPhoto(); }
+    function closeModal() { document.getElementById('charModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
-        window.onload = renderGrids;
-    </script>
+    window.onload = renderGrids;
+</script>
 </body>
 </html>
