@@ -175,9 +175,13 @@
             <p>하지만 소설의 끝은 붉은 달이 차오르는 절망뿐.</p>
             <p style="color: var(--point-red); font-weight: 800; margin: 40px 0; font-size: 1.6rem; text-decoration: underline; text-underline-offset: 10px;">"직접 이 지옥을 수습해 보시길."</p>
             <p>눈을 뜨자, 당신은 소설 속 <b>'계시자'</b>가 되어 있었다.</p>
-            <p>뒤틀린 운명의 수레바퀴를 돌릴 유일한 존재.<br>이제 당신의 기록(LOG)이 시작된다.</p>
+            <p>뒤틀린 운명의 수레바퀴를 돌릴 유일한 존재.<br>이제 당신의 이야기가 시작된다.</p>
         </div>
-        <button class="main-btn myeongjo" onclick="showTab('chars')">이야기 속으로</button>
+<button class="main-btn cinzel" 
+        onclick="window.open('https://share.crack.wrtn.ai/jvknh6', '_blank'); showTab('chars');" 
+        style="margin-top: 40px;">
+    이야기 속으로
+</button>
     </section>
 
     <!-- 세계관 -->
@@ -185,19 +189,23 @@
         <h2 class="myeongjo section-title">WORLDVIEW</h2>
         <div class="world-container myeongjo">
             <div class="world-card">
-                <h3>🩸 잔흔 (Residual Stain)</h3>
+                <h3>🕳️ 균열</h3>
+                <p>잔흔이 새어나오는 근원이며, 성력으로 균열의 확장을 늦출수는 있지만 소멸시킬수는 없습니다. 정화의 능력을 가지고 있는 특수한 인물만이 소멸 가능합니다.</p>
+                 </div>
+            <div class="world-card">
+                <h3>🩸 잔흔</h3>
                 <p>차원의 균열에서 스며 나오는 붉은 안개이자 독기입니다. 생명체의 이성을 마비시키고 내면의 가장 어두운 욕망을 광기로 폭주시키는 성질을 가지고 있습니다. 대륙 곳곳이 이 잔흔에 오염되어 가고 있습니다.</p>
             </div>
             <div class="world-card">
-                <h3>✨ 계시자 (The Oracle)</h3>
+                <h3>✨ 계시자</h3>
                 <p>신에게 선택받은 유일한 정화의 힘을 가진 존재. 타인의 몸에 쌓인 잔흔을 자신의 몸으로 옮겨와 소멸시킬 수 있습니다. 하지만 그 대가로 극심한 고통과 생명력을 지불해야 하는 가혹한 운명을 짊어집니다.</p>
             </div>
             <div class="world-card">
-                <h3>🌙 붉은 달 (Crimson Moon)</h3>
+                <h3>🌙 붉은 달</h3>
                 <p>멸망의 전조. 달이 완전히 피빛으로 물드는 날, 심연의 문이 열리고 세계는 종말을 맞이합니다. 현재 달은 조금씩 붉은 빛을 더해가고 있으며, 오직 계시자만이 이를 늦출 수 있다고 전해집니다.</p>
             </div>
             <div class="world-card">
-                <h3>🏰 제국 루미엘 (Lumiel Empire)</h3>
+                <h3>🏰 제국 루미엘</h3>
                 <p>성석의 가호 아래 천 년을 이어온 대제국. 하지만 최근 성석의 빛이 바래며 황실의 권위가 흔들리고 있습니다. 황제는 계시자를 제국의 소유물로 두어 몰락을 막으려 혈안이 되어 있습니다.</p>
             </div>
         </div>
@@ -321,26 +329,74 @@
         updateMainPhoto();
     }
 
-    function updateMainPhoto() {
-        const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
-        document.getElementById('mainImg').src = fullUrl;
+function updateMainPhoto() {
+    const mainImg = document.getElementById('mainImg');
+    const thumbArea = document.getElementById('thumbArea');
+    
+    // 1. 현재 선택된 이미지 URL 생성
+    const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
+
+    // 2. 메인 이미지 업데이트 및 로딩 효과
+    mainImg.style.transition = 'opacity 0.3s'; // 부드러운 전환 효과 추가
+    mainImg.style.opacity = '0.3'; 
+    
+    mainImg.src = fullUrl;
+    
+    mainImg.onload = () => { mainImg.style.opacity = '1'; };
+    mainImg.onerror = () => { 
+        mainImg.src = 'https://via.placeholder.com/220x280?text=Preparing...';
+        mainImg.style.opacity = '1';
+    };
         
-        const thumbArea = document.getElementById('thumbArea');
-        thumbArea.innerHTML = '';
-        codes.forEach((code, i) => {
-            const btn = document.createElement('button');
-            btn.innerText = code;
-            btn.style = `
-                padding: 6px 12px; border: 1px solid var(--border); 
-                background: ${i===imgIdx ? 'var(--royal-gold)' : 'white'};
-                color: ${i===imgIdx ? 'white' : 'var(--text-main)'};
-                cursor: pointer; font-family: 'Nanum Myeongjo'; font-weight: bold;
-                transition: 0.2s;
-            `;
-            btn.onclick = () => { imgIdx = i; updateMainPhoto(); };
-            thumbArea.appendChild(btn);
-        });
-    }
+    // 3. 하단 상태별 썸네일 리스트 생성
+    thumbArea.innerHTML = '';
+    
+    codes.forEach((code, i) => {
+        const sThumbUrl = `${baseUrl}${encodeURIComponent(current.id + code)}.webp`;
+        
+        const thumbWrapper = document.createElement('div');
+        thumbWrapper.style = `
+            display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer;
+            position: relative; transition: 0.2s;
+        `;
+        
+        const imgBtn = document.createElement('img');
+        imgBtn.src = sThumbUrl;
+        imgBtn.alt = code;
+        imgBtn.style = `
+            width: 60px; height: 80px; object-fit: cover; border-radius: 4px;
+            border: 2px solid ${i === imgIdx ? 'var(--royal-gold)' : 'transparent'};
+            box-shadow: ${i === imgIdx ? '0 0 10px rgba(179,139,77,0.5)' : 'none'};
+            transition: 0.2s; background: #eee;
+        `;
+        
+        const label = document.createElement('span');
+        label.innerText = code;
+        label.style = `
+            font-size: 0.7rem; color: ${i === imgIdx ? 'var(--royal-gold)' : 'var(--text-sub)'};
+            font-weight: ${i === imgIdx ? 'bold' : 'normal'}; font-family: 'Nanum Myeongjo';
+        `;
+
+        thumbWrapper.onclick = () => { 
+            imgIdx = i; 
+            updateMainPhoto(); 
+        };
+        
+        // 마우스 오버 시 z-index를 높여서 강조 효과가 가려지지 않게 함
+        thumbWrapper.onmouseenter = () => { 
+            imgBtn.style.transform = 'scale(1.1)'; 
+            thumbWrapper.style.zIndex = '10';
+        };
+        thumbWrapper.onmouseleave = () => { 
+            imgBtn.style.transform = 'scale(1)'; 
+            thumbWrapper.style.zIndex = '1';
+        };
+
+        thumbWrapper.appendChild(imgBtn);
+        thumbWrapper.appendChild(label);
+        thumbArea.appendChild(thumbWrapper);
+    });
+}
 
     function nextImg() { imgIdx = (imgIdx + 1) % codes.length; updateMainPhoto(); }
     function prevImg() { imgIdx = (imgIdx - 1 + codes.length) % codes.length; updateMainPhoto(); }
