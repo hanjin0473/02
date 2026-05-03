@@ -187,24 +187,24 @@
 
 <script>
         const baseUrl = "https://pub-1ff16a5c9ef048e3ab851e262c07ba57.r2.dev/";
-        const codes = ["기본⚖️", "옅은웃음", "수줍음", "눈물", "고백", "전투"];
+        const codes = ["중립","선","악", "옅은웃음", "수줍음", "눈물", "고백", "선중립결혼", "악결혼", "전투"];
         let current = null;
         let imgIdx = 0;
 
         const characters = [
-            { id: "아서_", name: "아서", age: "24세", mbti: "ESFJ", faction: "제국", sub: "용사", height: "188cm", weight: "78kg", tags: ["#수줍음", "#충견"], quote: "제가 당신을 지키겠습니다. 그것이 제 삶의 이유니까요.", desc: "학살에서 생존한 용사지만 계시자 앞에서는 충견이 된다." },
-            { id: "카이온_", name: "카이온 델 로젠탈", age: "36세", mbti: "ISTJ", faction: "제국", sub: "공작", height: "186cm", weight: "84kg", tags: ["#애정결핍", "#폭군"], quote: "어디 가지 마십시오. 제 곁에만 계셔야 합니다.", desc: "철저히 자신을 억제하며 살아왔지만 깊은 애정결핍이 있다." },
-            { id: "세드릭_", name: "세드릭 리오넬", age: "37세", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남"], quote: "하하! 오늘 한 잔 어때? 거절은 안 받는다구.", desc: "북부의 호탕한 기사단장. 가벼운 태도 뒤에 위압감을 숨기고 있다." },
-            { id: "비올레타_", name: "비올레타 폰 루미엘", age: "25세", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕"], quote: "나만 봐줘야 해. 다른 사람한테 웃어주는 건 싫어!", desc: "순진한 황녀를 연기하며 원하는 것을 손에 넣는다." },
-            { id: "노아_", name: "노아", age: "20세", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#집착"], quote: "무릎베개 해주세요... 그럼 착한 아이로 있을게요.", desc: "실험체 출신으로 계시자에게 기괴한 집착을 보인다." },
-            { id: "카시엘_", name: "카시엘", age: "37세", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "신보다 당신이 더 소중하다면, 그것 또한 죄일까요?", desc: "평생을 신께 바쳤으나 계시자를 만난 후 신앙이 흔들린다." },
-            { id: "루드비히_", name: "루드비히 폰 루미엘", age: "48세", mbti: "INTJ", faction: "제국", sub: "황제", height: "193cm", weight: "101kg", tags: ["#중후함", "#피의군주"], quote: "이 나라를 네 발아래 두마. 그러니 내 곁을 떠나지 마라.", desc: "냉혹한 황제. 당신을 황궁 깊은 곳에 가두고 싶어 한다." },
-            { id: "제르카_", name: "제르카", age: "250세", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#나른함"], quote: "졸려... 그냥 여기 누워 있어. 아무 데도 가지 말고.", desc: "모든 것에 흥미를 잃은 마왕. 언제 집어삼킬지 모르는 위험한 존재." },
-            { id: "펜릴_", name: "펜릴", age: "28세", mbti: "ESTP", faction: "마계", sub: "늑대수인", height: "187cm", weight: "92kg", tags: ["#맹수", "#본능적"], quote: "네 냄새, 여기서 제일 달콤해. 한 입만 먹게 해줘.", desc: "속박을 싫어하는 거친 늑대수인. 본능에 충실하다." },
-            { id: "니아_", name: "니아", age: "32세", mbti: "ISTJ", faction: "마계", sub: "표범수인", height: "173cm", weight: "63kg", tags: ["#은밀함", "#체취추적"], quote: "당신이 어디에 있든, 나는 찾아낼 수 있어요.", desc: "암살에 최적화된 군단장. 조용히 뒤를 밟는 기벽이 있다." },
-            { id: "릴리스_", name: "릴리스", age: "200세", mbti: "ENTP", faction: "마계", sub: "마녀", height: "140cm", weight: "38kg", tags: ["#인형놀이", "#잔혹함"], quote: "인형으로 만들어줄까? 그럼 영원히 내 거잖아!", desc: "어린아이 몸에 갇힌 마녀. 살아있는 존재를 인형처럼 다룬다." },
-            { id: "레이_", name: "레이", age: "?", mbti: "ENTP", faction: "기타", sub: "유랑가", height: "187cm", weight: "79kg", tags: ["#능글맞은", "#방랑자"], quote: "세상은 무대고, 우린 배우지. 당신은 어떤 배역이 좋아?", desc: "대륙 전역을 유람하며 흥미로운 사건에 참견하는 방랑자." },
-            { id: "베놈_", name: "베놈", age: "25세", mbti: "ESTP", faction: "기타", sub: "용병", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "자극만 준다면 무엇이든 파괴하는 광기 어린 용병." }
+            { id: "아서", name: "아서", age: "24세", mbti: "ESFJ", faction: "제국", sub: "용사", height: "188cm", weight: "78kg", tags: ["#수줍음", "#충견"], quote: "제가 당신을 지키겠습니다. 그것이 제 삶의 이유니까요.", desc: "학살에서 생존한 용사지만 계시자 앞에서는 충견이 된다." },
+            { id: "카이온", name: "카이온 델 로젠탈", age: "36세", mbti: "ISTJ", faction: "제국", sub: "공작", height: "186cm", weight: "84kg", tags: ["#애정결핍", "#폭군"], quote: "어디 가지 마십시오. 제 곁에만 계셔야 합니다.", desc: "철저히 자신을 억제하며 살아왔지만 깊은 애정결핍이 있다." },
+            { id: "세드릭", name: "세드릭 리오넬", age: "37세", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남"], quote: "하하! 오늘 한 잔 어때? 거절은 안 받는다구.", desc: "북부의 호탕한 기사단장. 가벼운 태도 뒤에 위압감을 숨기고 있다." },
+            { id: "비올레타", name: "비올레타 폰 루미엘", age: "25세", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕"], quote: "나만 봐줘야 해. 다른 사람한테 웃어주는 건 싫어!", desc: "순진한 황녀를 연기하며 원하는 것을 손에 넣는다." },
+            { id: "노아", name: "노아", age: "20세", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#집착"], quote: "무릎베개 해주세요... 그럼 착한 아이로 있을게요.", desc: "실험체 출신으로 계시자에게 기괴한 집착을 보인다." },
+            { id: "카시엘", name: "카시엘", age: "37세", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "신보다 당신이 더 소중하다면, 그것 또한 죄일까요?", desc: "평생을 신께 바쳤으나 계시자를 만난 후 신앙이 흔들린다." },
+            { id: "루드비히", name: "루드비히 폰 루미엘", age: "48세", mbti: "INTJ", faction: "제국", sub: "황제", height: "193cm", weight: "101kg", tags: ["#중후함", "#피의군주"], quote: "이 나라를 네 발아래 두마. 그러니 내 곁을 떠나지 마라.", desc: "냉혹한 황제. 당신을 황궁 깊은 곳에 가두고 싶어 한다." },
+            { id: "제르카", name: "제르카", age: "250세", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#나른함"], quote: "졸려... 그냥 여기 누워 있어. 아무 데도 가지 말고.", desc: "모든 것에 흥미를 잃은 마왕. 언제 집어삼킬지 모르는 위험한 존재." },
+            { id: "펜릴", name: "펜릴", age: "28세", mbti: "ESTP", faction: "마계", sub: "늑대수인", height: "187cm", weight: "92kg", tags: ["#맹수", "#본능적"], quote: "네 냄새, 여기서 제일 달콤해. 한 입만 먹게 해줘.", desc: "속박을 싫어하는 거친 늑대수인. 본능에 충실하다." },
+            { id: "니아", name: "니아", age: "32세", mbti: "ISTJ", faction: "마계", sub: "표범수인", height: "173cm", weight: "63kg", tags: ["#은밀함", "#체취추적"], quote: "당신이 어디에 있든, 나는 찾아낼 수 있어요.", desc: "암살에 최적화된 군단장. 조용히 뒤를 밟는 기벽이 있다." },
+            { id: "릴리스", name: "릴리스", age: "200세", mbti: "ENTP", faction: "마계", sub: "마녀", height: "140cm", weight: "38kg", tags: ["#인형놀이", "#잔혹함"], quote: "인형으로 만들어줄까? 그럼 영원히 내 거잖아!", desc: "어린아이 몸에 갇힌 마녀. 살아있는 존재를 인형처럼 다룬다." },
+            { id: "레이", name: "레이", age: "?", mbti: "ENTP", faction: "기타", sub: "유랑가", height: "187cm", weight: "79kg", tags: ["#능글맞은", "#방랑자"], quote: "세상은 무대고, 우린 배우지. 당신은 어떤 배역이 좋아?", desc: "대륙 전역을 유람하며 흥미로운 사건에 참견하는 방랑자." },
+            { id: "베놈", name: "베놈", age: "25세", mbti: "ESTP", faction: "기타", sub: "용병", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#뱀문신"], quote: "아파? 더 아프게 해줄까? 넌 우는 얼굴이 제일 예뻐.", desc: "자극만 준다면 무엇이든 파괴하는 광기 어린 용병." }
         ];
 
 function showTab(tabId) {
