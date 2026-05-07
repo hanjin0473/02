@@ -278,14 +278,21 @@
         showTab('chars');
     }
 
-    function renderGrids() {
+function renderGrids() {
+        // 기존 그리드 비우기 (새로고침 시 중복 방지)
+        document.getElementById('grid-empire').innerHTML = '';
+        document.getElementById('grid-devildom').innerHTML = '';
+        document.getElementById('grid-abyss').innerHTML = '';
+
         characters.forEach(char => {
             const card = document.createElement('div');
             card.className = 'char-card myeongjo';
-            const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + "중립")}.webp`;
+            
+// char.id(예: AR) + codes[0](예: N) = ARN.webp 가 생성됩니다.
+const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
             
             card.innerHTML = `
-                <img src="${thumbUrl}" class="char-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/220x280?text=Preparing...'">
+                <img src="${thumbUrl}" class="char-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/220x280?text=Image+Missing'">
                 <div class="char-info-box">
                     <span class="char-subtext">${char.sub}</span>
                     <div class="char-name">${char.name}</div>
