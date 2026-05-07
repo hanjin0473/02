@@ -256,7 +256,7 @@
         { id: "SD", name: "세드릭 리오넬", age: "37세", mbti: "ESTP", faction: "제국", sub: "북부기사단장", height: "190cm", weight: "96kg", tags: ["#아저씨", "#쾌남"], quote: "하하! 오늘 한 잔 어때? 거절은 안 받는다구.", desc: "북부 기사단을 이끄는 호탕한 기사단장. 거친 농담과 여유로운 태도 뒤에는 수많은 전장을 건너온 노련함과 잔혹한 결단력이 숨어 있다." },
         { id: "VT", name: "비올레타 폰 루미엘", age: "25세", mbti: "ESFP", faction: "제국", sub: "황녀", height: "168cm", weight: "52kg", tags: ["#순진연기", "#독점욕"], quote: "너, 마음에 든다~ 나랑 같이 놀래~?", desc: "제국의 꽃이라 불리는 황녀. 천진난만한 모습으로 모두의 사랑을 독차지하는 듯 보이지만, 사실 모든 관계를 철저히 계산하고 움직이는 영민한 전략가다." },
         { id: "NA", name: "노아", age: "20세", mbti: "INFP", faction: "제국", sub: "마탑주", height: "165cm", weight: "50kg", tags: ["#연하남", "#집착"], quote: "착하게 있을테니까.. 나랑 맨날 놀아줘.", desc: "역대 최연소 마탑주이자 실험체 출신의 마법사. 믿는 법을 배운 적이 없어 늘 불안해하며, 상대의 반응 하나하나에 예민하게 반응하는 위태로운 천재." },
-        { id: "KS", name: "카시엘", age: "37세", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "괜찮습니다. 신께서도 당신의 안녕을 가장 먼저 바라실 테니까요.",, desc: "신의 목소리를 대변하는 자애로운 대신관. 성자라 칭송받지만 정작 본인은 마음속에 피어오르는 인간적인 욕망을 죄라 여기며 끊임없이 고뇌하고 억누른다."},
+        { id: "KS", name: "카시엘", age: "37세", mbti: "INFJ", faction: "제국", sub: "대신관", height: "185cm", weight: "76kg", tags: ["#자애로움", "#쑥맥"], quote: "괜찮습니다. 신께서도 당신의 안녕을 가장 먼저 바라실 테니까요.", desc: "신의 목소리를 대변하는 자애로운 대신관. 성자라 칭송받지만 정작 본인은 마음속에 피어오르는 인간적인 욕망을 죄라 여기며 끊임없이 고뇌하고 억누른다."},
         { id: "JK", name: "제르카", age: "250세", mbti: "ISTP", faction: "마계", sub: "마왕", height: "190cm", weight: "88kg", tags: ["#권태", "#나른함"], quote: "졸려... 귀찮아.. 아무것도 하기 싫다...", desc: "모든 것이 시시해진 마계의 주인. 압도적인 힘 탓에 삶에 의욕이 없지만, 유일하게 흥미를 끄는 대상에게는 자신도 모르게 시선을 떼지 못한다." },
         { id: "FN", name: "펜릴", age: "28세", mbti: "ESTP", faction: "마계", sub: "늑대수인", height: "187cm", weight: "92kg", tags: ["#맹수", "#츤데레"], quote: "야. 냄새나니까 저리가. 아니.. 그렇게 멀리 가진말고 위험하니까.", desc: "본능에 충실한 늑대 수인 군단장. 입은 거칠고 태도는 퉁명스럽지만, 제 무리라고 판단한 존재는 목숨을 걸고서라도 끝까지 지키는 의리가 있다." },
         { id: "NI", name: "니아", age: "32세", mbti: "ISTJ", faction: "마계", sub: "표범수인", height: "173cm", weight: "63kg", tags: ["#은밀함", "#침착"], quote: "너랑 놀 시간 없어. 다른 사람 찾아봐.", desc: "기척을 지우고 정보를 모으는 마계의 군단. 감정을 잘 드러내지 않으며, 늘 한 발자국 뒤에서 그림자처럼 대상을 관찰하고 지키는 것이 익숙하다." },
@@ -265,7 +265,7 @@
         { id: "VN", name: "베놈", age: "25세", mbti: "ESTP", faction: "기타", sub: "???", height: "182cm", weight: "86kg", tags: ["#쾌락파괴", "#거침"], quote: "뭐야, 너. 멍청하게 서 있지 말고 말해.", desc: "피 냄새를 쫓는 미친개라 불리는 사나이. 고통에 익숙해진 탓에 타인에게도 거칠고 파괴적으로 굴지만, 정작 누군가의 조건 없는 관심에는 당혹감을 느낀다." }
     ];
 
-    function showTab(tabId) {
+function showTab(tabId) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.querySelectorAll('.main-nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(`sec-${tabId}`).classList.remove('hidden');
@@ -278,8 +278,7 @@
         showTab('chars');
     }
 
-function renderGrids() {
-        // 기존 그리드 비우기 (새로고침 시 중복 방지)
+    function renderGrids() {
         document.getElementById('grid-empire').innerHTML = '';
         document.getElementById('grid-devildom').innerHTML = '';
         document.getElementById('grid-abyss').innerHTML = '';
@@ -287,9 +286,7 @@ function renderGrids() {
         characters.forEach(char => {
             const card = document.createElement('div');
             card.className = 'char-card myeongjo';
-            
-// char.id(예: AR) + codes[0](예: N) = ARN.webp 가 생성됩니다.
-const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
+            const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
             
             card.innerHTML = `
                 <img src="${thumbUrl}" class="char-thumb" loading="lazy" onerror="this.src='https://via.placeholder.com/220x280?text=Image+Missing'">
@@ -314,6 +311,7 @@ const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
     }
 
     function updateUI() {
+        if(!current) return;
         document.getElementById('mName').innerText = current.name;
         document.getElementById('mSubTitle').innerText = `${current.faction} / ${current.sub}`;
         document.getElementById('mAge').innerText = current.age;
@@ -336,31 +334,33 @@ const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
         const thumbArea = document.getElementById('thumbArea');
         const fullUrl = `${baseUrl}${encodeURIComponent(current.id + codes[imgIdx])}.webp`;
 
-        mainImg.style.transition = 'opacity 0.3s';
-        mainImg.style.opacity = '0.3'; 
+        mainImg.style.transition = 'opacity 0.2s';
+        mainImg.style.opacity = '0.5'; 
         mainImg.src = fullUrl;
         
         mainImg.onload = () => { mainImg.style.opacity = '1'; };
-        mainImg.onerror = () => { 
-            mainImg.src = 'https://via.placeholder.com/220x280?text=Preparing...';
-            mainImg.style.opacity = '1';
-        };
+        mainImg.onerror = () => { mainImg.src = 'https://via.placeholder.com/400x600?text=Image+Preparing...'; mainImg.style.opacity = '1'; };
             
         thumbArea.innerHTML = '';
         codes.forEach((code, i) => {
             const sThumbUrl = `${baseUrl}${encodeURIComponent(current.id + code)}.webp`;
             const thumbWrapper = document.createElement('div');
-            thumbWrapper.style = "display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; position: relative; transition: 0.2s;";
+            thumbWrapper.style = "display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer;";
             
             const imgBtn = document.createElement('img');
             imgBtn.src = sThumbUrl;
-            imgBtn.style = `width: 60px; height: 80px; object-fit: cover; border-radius: 4px; border: 2px solid ${i === imgIdx ? 'var(--royal-gold)' : 'transparent'}; transition: 0.2s;`;
-            
+            imgBtn.style = `width: 50px; height: 70px; object-fit: cover; border-radius: 4px; border: 2px solid ${i === imgIdx ? 'var(--royal-gold)' : 'transparent'};`;
+            imgBtn.onerror = function() { this.parentElement.style.display = 'none'; };
+
             const label = document.createElement('span');
             label.innerText = code;
-            label.style = `font-size: 0.7rem; color: ${i === imgIdx ? 'var(--royal-gold)' : 'var(--text-sub)'};`;
+            label.style = `font-size: 0.6rem; color: ${i === imgIdx ? 'var(--royal-gold)' : 'var(--text-sub)'};`;
 
-            thumbWrapper.onclick = (e) => { e.stopPropagation(); imgIdx = i; updateMainPhoto(); };
+            thumbWrapper.onclick = (e) => { 
+                e.stopPropagation(); // 모달 닫힘 방지
+                imgIdx = i; 
+                updateMainPhoto(); 
+            };
             thumbWrapper.appendChild(imgBtn);
             thumbWrapper.appendChild(label);
             thumbArea.appendChild(thumbWrapper);
@@ -373,5 +373,3 @@ const thumbUrl = `${baseUrl}${encodeURIComponent(char.id + codes[0])}.webp`;
 
     window.onload = renderGrids;
 </script>
-</body>
-</html>
